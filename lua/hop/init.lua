@@ -283,8 +283,9 @@ function M.move_cursor_to(w, line, column, hint_offset, direction)
   -- « offset something by N visual columns. »
 
   -- If it is pending for operator shift column to the right by 1
+  hint_offset = hint_offset or 0
   if vim.api.nvim_get_mode().mode == 'no' and direction ~= 1 then
-    column = column + 1
+    hint_offset = hint_offset + 1
   end
 
   if hint_offset ~= nil and not (hint_offset == 0) then
