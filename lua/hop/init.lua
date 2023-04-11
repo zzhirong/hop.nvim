@@ -343,6 +343,7 @@ function M.hint_with_callback(jump_target_gtr, opts, callback)
 
   if target_idx ~= nil then
     local jt = generated.jump_targets[target_idx]
+
     if jt then
       callback(jt)
     else
@@ -386,7 +387,7 @@ function M.hint_with_callback(jump_target_gtr, opts, callback)
     if not_special_key and opts.keys:find(key, 1, true) then
       -- If this is a key used in Hop (via opts.keys), deal with it in Hop
       h = M.refine_hints(key, hs, callback, opts)
-      vim.cmd('redraw')
+      vim.cmd('mode')
     else
       -- If it's not, quit Hop
       M.quit(hs)
