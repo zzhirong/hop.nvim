@@ -95,7 +95,12 @@ local function set_unmatched_lines(buf_handle, hl_ns, top_line, bottom_line, cur
     start_col = cursor_pos[2]
   elseif direction == hint.HintDirection.BEFORE_CURSOR then
     end_line = bottom_line - 1
-    if cursor_pos[2] ~= 0 then end_col = cursor_pos[2] end
+    -- cursor_pos[2] is also 1 on a empty line.
+    if vim.fn.getline(bottom_line) == "" then
+        end_col = 0
+    elseif cursor_pos[2] ~= 0 then
+        end_col = cursor_pos[2]
+    end
   end
 
   if current_line_only then
@@ -119,7 +124,7 @@ local function set_unmatched_lines(buf_handle, hl_ns, top_line, bottom_line, cur
     local current_line = vim.api.nvim_buf_get_lines(buf_handle, cursor_pos[1] - 1, cursor_pos[1], true)[1]
     local current_width = vim.fn.strdisplaywidth(current_line)
 
-    if end_col > current_width then
+    if(current_width > 0) and (end_col > current_width) then
       end_col = current_width - 1
     end
 
