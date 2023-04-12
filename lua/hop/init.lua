@@ -92,11 +92,15 @@ local function set_unmatched_lines(buf_handle, hl_ns, top_line, bottom_line, cur
   local end_col = nil
 
   if direction == hint.HintDirection.AFTER_CURSOR then
-    start_col = cursor_pos[2]
+    if vim.fn.getline(".") == "" then
+        start_col = 0
+    else
+        start_col = cursor_pos[2]
+    end
   elseif direction == hint.HintDirection.BEFORE_CURSOR then
     end_line = bottom_line - 1
     -- cursor_pos[2] is also 1 on a empty line.
-    if vim.fn.getline(bottom_line) == "" then
+    if vim.fn.getline(".") == "" then
         end_col = 0
     elseif cursor_pos[2] ~= 0 then
         end_col = cursor_pos[2]
